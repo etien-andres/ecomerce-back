@@ -6,6 +6,7 @@ import com.lolacosmetics.ecomerce_back.dto.LoginRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,10 +19,20 @@ public class UsuarioController {
 
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
-        System.out.println("hola controller");
-        usuario.setRol("USUARIO");
         try {
             Usuario nuevoUsuario = usuarioService.registrarUsuario(usuario);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/registroadm")
+    @PreAuthorize("hasAuthority('ADMIN')")
+
+    public ResponseEntity<?> registrarUsuarioadm(@RequestBody Usuario usuario) {
+        try {
+            Usuario nuevoUsuario = usuarioService.registrarAdmin(usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -3,6 +3,7 @@ package com.lolacosmetics.ecomerce_back.service;
 
 import com.lolacosmetics.ecomerce_back.dto.ProductoDTO;
 import com.lolacosmetics.ecomerce_back.model.Producto;
+import com.lolacosmetics.ecomerce_back.repository.CategoriaRepository;
 import com.lolacosmetics.ecomerce_back.repository.ProductoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,13 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+
+    @Autowired
+    private CategoriaService categoriaService;
+
     public List<Producto> listarProductos() {
         return productoRepository.findAll();
     }
@@ -30,8 +38,10 @@ public class ProductoService {
         Producto producto1=new Producto();
         producto1.setNombre( producto.getNombre());
         producto1.setDescripcion(producto1.getDescripcion());
-        producto1.setStock(0);
+        producto1.setStock(producto.getStock());
         producto1.setPrecio(producto.getPrecio());
+
+        producto1.setCategoria(categoriaRepository.getReferenceById(producto.getCategoriaId()));
 
 
         return productoRepository.save(producto1);

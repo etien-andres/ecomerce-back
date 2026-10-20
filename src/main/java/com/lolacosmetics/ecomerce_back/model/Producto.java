@@ -16,12 +16,16 @@ public class Producto {
     @Column(nullable = false)
     private String nombre;
 
+    @Column(nullable = false)
     private String descripcion;
+
+    @Column()
+    private String img;
 
     @Column(nullable = false)
     private BigDecimal precio;
 
-    @Column(nullable = false)
+    @Column()
     private Integer stock;
 
     @ManyToOne

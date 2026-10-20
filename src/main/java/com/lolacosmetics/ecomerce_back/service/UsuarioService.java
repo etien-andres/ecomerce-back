@@ -26,8 +26,27 @@ public class UsuarioService {
     @Transactional
     public Usuario registrarUsuario(Usuario usuario) {
         // Encriptar contraseña
-
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+        //Registrar como Usuario
+        usuario.setRol("USUARIO");
+
+        // Guardar usuario
+        Usuario nuevoUsuario = usuarioRepository.save(usuario);
+
+        // Crear carrito para el usuario
+        Carrito carrito = new Carrito();
+        carrito.setUsuario(nuevoUsuario);
+        carritoRepository.save(carrito);
+
+        return nuevoUsuario;
+    }
+    public Usuario registrarAdmin(Usuario usuario) {
+        // Encriptar contraseña
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+        //Registrar como Usuario
+        usuario.setRol("ADMIN");
 
         // Guardar usuario
         Usuario nuevoUsuario = usuarioRepository.save(usuario);

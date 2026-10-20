@@ -35,9 +35,11 @@ public class CarritoService {
         carritoProductoRepository.findByCarrito(carritoRepository.findByUsuario(usuario).orElseThrow(() -> new RuntimeException("Carrito no encontrado")));
         return carritoRepository.findByUsuario(usuario)
                 .orElseGet(() -> {
-                    Carrito nuevoCarrito = new Carrito();
-                    nuevoCarrito.setUsuario(usuario);
-                    return carritoRepository.save(nuevoCarrito);
+//                    Carrito nuevoCarrito = new Carrito();
+//                    nuevoCarrito.setUsuario(usuario);
+//
+//                    return carritoRepository.save(nuevoCarrito);
+                    return null;
                 });
     }
 

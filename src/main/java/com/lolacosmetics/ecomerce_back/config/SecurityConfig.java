@@ -11,6 +11,7 @@ import org.springframework.security.config.Customizer;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -29,6 +30,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
     @EnableWebSecurity
+    @EnableMethodSecurity
+
     public class SecurityConfig  {
 
     @Autowired
@@ -57,8 +60,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
             http
                     .authorizeHttpRequests((authorize) -> authorize
                             .requestMatchers("/api/authenticate").permitAll()
+                            .requestMatchers("/api/usuarios/registroadm").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.POST,"/api/usuarios/registro").permitAll()
-                            .requestMatchers("/**").hasAuthority("USUARIO")
+                            .requestMatchers(HttpMethod.GET,"/api/productos").hasAuthority("USUARIO")
+                            .requestMatchers("/**").hasAuthority("ADMIN")
                     ).authenticationProvider(authenticationProvider()).addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
 
                     .csrf(csrf -> csrf

@@ -1,5 +1,6 @@
 package com.lolacosmetics.ecomerce_back.controller;
 
+import com.lolacosmetics.ecomerce_back.dto.CarritoDTO;
 import com.lolacosmetics.ecomerce_back.model.Carrito;
 import com.lolacosmetics.ecomerce_back.model.CarritoProducto;
 import com.lolacosmetics.ecomerce_back.dto.CarritoProductoDTO;
@@ -25,7 +26,13 @@ public class CarritoController {
     public ResponseEntity<?> obtenerCarrito(@PathVariable Long usuarioId) {
         try {
             Carrito carrito = carritoService.obtenerPorUsuario(usuarioId);
-            return ResponseEntity.ok(carrito);
+            CarritoProductoDTO carritoProductoDTO =new CarritoProductoDTO();
+
+            CarritoDTO carritoDto=new CarritoDTO(carrito.getId(), carrito.getUsuario().getId(),carrito.getUsuario().getEmail(),carrito.getFechaCreacion(),carrito.getProductos(),carrito.getProductos().size());
+            carritoDto.setFechaCreacion(carrito.getFechaCreacion());
+
+
+            return ResponseEntity.ok(carritoDto);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
