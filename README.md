@@ -57,7 +57,7 @@ spring.datasource.password=tu_password
 spring.jpa.hibernate.ddl-auto=update
 2.3 Variables de Entorno
 properties
-jwt.secret=586E3272357538782F413F4428472B4B6250655368566B597033733676397924
+jwt.secret=secret
 jwt.expiration=86400000
 jwt.refresh-expiration=604800000
 3. AUTENTICACIÓN
